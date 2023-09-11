@@ -133,6 +133,7 @@ const transformToMarkupSchemaCode = (tree: TreeNode) => {
       Card,
       Slider,
       Rate,
+      
     },
   })
   

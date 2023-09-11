@@ -60,6 +60,7 @@ import {
   FormCollapse,
   FormLayout,
   FormGrid,
+  MyInput,
 } from "./antd-shared";
 import { SettingsForm } from "@designable/react-settings-form";
 import { MarkupSchemaWidget } from "./widgets/MarkupSchemaWidget";
@@ -122,7 +123,7 @@ function App() {
             />
             <ResourceWidget
               title="自增组件"
-              sources={[ArrayCards, ArrayTable]}
+              sources={[ArrayCards, ArrayTable, MyInput]}
             />
             <ResourceWidget title="展示组件" sources={[Text]} />
           </CompositePanel.Item>
@@ -173,6 +174,7 @@ function App() {
                       FormGrid,
                       FormLayout,
                       ObjectContainer,
+                      MyInput,
                     }}
                   />
                 )}

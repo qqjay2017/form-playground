@@ -1,62 +1,62 @@
-import React from 'react'
-import { Input as FormilyInput } from '@formily/antd'
-import { createBehavior, createResource } from '@designable/core'
-import { DnFC } from '@designable/react'
-import { createFieldSchema } from '../Field'
-import { AllSchemas } from '../../schemas'
-import { AllLocales } from '../../locales'
+import React from "react";
+import { Input as FormilyInput } from "@formily/antd";
+import { createBehavior, createResource } from "@designable/core";
+import { DnFC } from "@designable/react";
+import { createFieldSchema } from "../Field";
+import { AllSchemas } from "../../schemas";
+import { AllLocales } from "../../locales";
 
 export const Input: DnFC<React.ComponentProps<typeof FormilyInput>> =
-  FormilyInput
+  FormilyInput;
 
 Input.Behavior = createBehavior(
   {
-    name: 'Input',
-    extends: ['Field'],
-    selector: (node) => node.props['x-component'] === 'Input',
+    name: "Input",
+    extends: ["Field"],
+    selector: (node) => node.props?.["x-component"] === "Input",
     designerProps: {
       propsSchema: createFieldSchema(AllSchemas.Input),
     },
     designerLocales: AllLocales.Input,
   },
   {
-    name: 'Input.TextArea',
-    extends: ['Field'],
-    selector: (node) => node.props['x-component'] === 'Input.TextArea',
+    name: "Input.TextArea",
+    extends: ["Field"],
+    selector: (node) => node.props?.["x-component"] === "Input.TextArea",
     designerProps: {
       propsSchema: createFieldSchema(AllSchemas.Input.TextArea),
     },
     designerLocales: AllLocales.TextArea,
   }
-)
+);
 
 Input.Resource = createResource(
   {
-    icon: 'InputSource',
+    icon: "InputSource",
     elements: [
       {
-        componentName: 'Field',
+        componentName: "Field",
         props: {
-          type: 'string',
-          title: 'Input',
-          'x-decorator': 'FormItem',
-          'x-component': 'Input',
+          type: "string",
+          title: "Input",
+          "x-decorator": "FormItem",
+          "x-component": "Input",
         },
       },
     ],
   },
   {
-    icon: 'TextAreaSource',
+    icon: "TextAreaSource",
     elements: [
       {
-        componentName: 'Field',
+        componentName: "Field",
         props: {
-          type: 'string',
-          title: 'TextArea',
-          'x-decorator': 'FormItem',
-          'x-component': 'Input.TextArea',
+          type: "string",
+          title: "TextArea",
+          "x-decorator": "FormItem",
+          "x-component": "Input.TextArea",
         },
       },
     ],
   }
-)
+);
