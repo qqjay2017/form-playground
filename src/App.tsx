@@ -62,6 +62,7 @@ import {
   FormGrid,
 } from "./antd-shared";
 import { SettingsForm } from "@designable/react-settings-form";
+import { MarkupSchemaWidget } from "./widgets/MarkupSchemaWidget";
 function App() {
   const engine = useMemo(
     () =>
@@ -136,7 +137,9 @@ function App() {
           <WorkspacePanel>
             <ToolbarPanel>
               <DesignerToolsWidget />
-              <ViewToolsWidget use={["DESIGNABLE", "JSONTREE", "PREVIEW"]} />
+              <ViewToolsWidget
+                use={["DESIGNABLE", "JSONTREE", "MARKUP", "PREVIEW"]}
+              />
             </ToolbarPanel>
             <ViewportPanel>
               <ViewPanel type="DESIGNABLE">
@@ -178,6 +181,9 @@ function App() {
                 {(tree, onChange) => (
                   <SchemaEditorWidget tree={tree} onChange={onChange} />
                 )}
+              </ViewPanel>
+              <ViewPanel type="MARKUP" scrollable={false}>
+                {(tree) => <MarkupSchemaWidget tree={tree} />}
               </ViewPanel>
               <ViewPanel type="PREVIEW">
                 {(tree) => <PreviewWidget tree={tree} />}
