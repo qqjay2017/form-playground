@@ -25,7 +25,12 @@ import {
   Shortcut,
   KeyCode,
 } from "@designable/core";
-import { ActionsWidget, PreviewWidget, SchemaEditorWidget } from "./widgets";
+import {
+  ActionsWidget,
+  LogoWidget,
+  PreviewWidget,
+  SchemaEditorWidget,
+} from "./widgets";
 
 import {
   Form,
@@ -79,7 +84,7 @@ function App() {
 
   return (
     <Designer engine={engine}>
-      <StudioPanel logo={"logo"} actions={<ActionsWidget />}>
+      <StudioPanel logo={<LogoWidget />} actions={<ActionsWidget />}>
         <CompositePanel>
           <CompositePanel.Item title="panels.Component" icon="Component">
             <ResourceWidget
