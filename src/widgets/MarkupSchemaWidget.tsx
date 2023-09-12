@@ -6,7 +6,7 @@ export interface IMarkupSchemaWidgetProps {
   tree: TreeNode;
 }
 
-const transformToMarkupSchemaCode = (tree: TreeNode) => {
+const transformToProFormSchemaCode = (tree: TreeNode) => {
   const printAttribute = (node: TreeNode) => {
     if (!node) return "";
     const props = { ...node.props };
@@ -30,15 +30,72 @@ const transformToMarkupSchemaCode = (tree: TreeNode) => {
       })
       .join(" ")}`;
   };
-  const printChildren = (node: TreeNode) => {
-    if (!node) return "";
-    return node.children
-      .map((child) => {
-        return printNode(child);
-      })
-      .join("");
-  };
+  const root = tree.find((child) => {
+    return child.componentName === "Form" || child.componentName === "Root";
+  });
   const printTag = (node: TreeNode) => {
+    console.log(node, "nodenodenode");
+    const nodeProps: any = node.props || {};
+    // 根据属性,判断要返回的Element
+    const XComponent = nodeProps["x-component"];
+    if (XComponent == "Input") {
+      return "ProFormText";
+    }
+    if (XComponent == "Switch") {
+      return "ProFormSwitch";
+    }
+    if (XComponent == "Upload.Dragger") {
+      return "ProFormUploadDragger";
+    }
+    if (XComponent == "Upload") {
+      return "ProFormUploadButton";
+    }
+    if (XComponent == "TimePicker.RangePicker") {
+      return "ProFormTimePicker.RangePicker";
+    }
+    if (XComponent == "TimePicker") {
+      return "ProFormTimePicker";
+    }
+    if (XComponent == "DatePicker.RangePicker") {
+      return "ProFormDatePicker.RangePicker";
+    }
+    if (XComponent == "DatePicker") {
+      return "ProFormDatePicker.RangePicker";
+    }
+    if (XComponent == "Radio.Group") {
+      return "ProFormRadio.Group";
+    }
+    if (XComponent == "Checkbox.Group") {
+      return "ProFormCheckbox.Group";
+    }
+    if (XComponent == "Cascader") {
+      return "ProFormCascader";
+    }
+    if (XComponent == "TreeSelect") {
+      return "ProFormTreeSelect";
+    }
+    if (XComponent == "Select") {
+      return "ProFormSelect";
+    }
+    if (XComponent == "Slider") {
+      return "ProFormSlider";
+    }
+    if (XComponent == "Rate") {
+      return "ProFormRate";
+    }
+    if (XComponent == "NumberPicker") {
+      return "ProFormDigit";
+    }
+    if (XComponent == "Password") {
+      return "ProFormText.Password";
+    }
+    if (XComponent == "Input.TextArea") {
+      return "ProFormInput.TextArea";
+    }
+    if (XComponent == "Input") {
+      return "ProFormText";
+    }
+
     if (node.props?.type === "string") return "SchemaField.String";
     if (node.props?.type === "number") return "SchemaField.Number";
     if (node.props?.type === "boolean") return "SchemaField.Boolean";
@@ -51,102 +108,117 @@ const transformToMarkupSchemaCode = (tree: TreeNode) => {
   };
   const printNode = (node: TreeNode) => {
     if (!node) return "";
-    return `<${printTag(node)} ${printAttribute(node)} ${
+    return `
+    <${printTag(node)} ${printAttribute(node)} ${
       node.children.length
         ? `>${printChildren(node)}</${printTag(node)}>`
         : "/>"
-    }`;
+    }
+    `;
   };
-  const root = tree.find((child) => {
-    return child.componentName === "Form" || child.componentName === "Root";
-  });
-  return `import React, { useMemo } from 'react'
-  import { createForm } from '@formily/core'
-  import { createSchemaField } from '@formily/react'
+  const printChildren = (node: TreeNode) => {
+    if (!node) return "";
+    return node.children
+      .map((child) => {
+        return printNode(child);
+      })
+      .join("\r\n");
+  };
+  return `
+  import React, { useMemo ,useRef , useState} from 'react;
+  import { Card, Slider, Rate } from 'antd';
+  import { PageLayout } from "remote/shared";
   import {
-    Form,
-    FormItem,
-    DatePicker,
-    Checkbox,
-    Cascader,
-    Editable,
-    Input,
-    NumberPicker,
-    Switch,
-    Password,
-    PreviewText,
-    Radio,
-    Reset,
-    Select,
-    Space,
-    Submit,
-    TimePicker,
-    Transfer,
-    TreeSelect,
-    Upload,
-    FormGrid,
-    FormLayout,
-    FormTab,
-    FormCollapse,
-    ArrayTable,
-    ArrayCards,
-  } from '@formily/antd'
-  import { Card, Slider, Rate } from 'antd'
-  
-  const Text: React.FC<{
-    value?: string
-    content?: string
-    mode?: 'normal' | 'h1' | 'h2' | 'h3' | 'p'
-  }> = ({ value, mode, content, ...props }) => {
-    const tagName = mode === 'normal' || !mode ? 'div' : mode
-    return React.createElement(tagName, props, value || content)
-  }
-  
-  const SchemaField = createSchemaField({
-    components: {
-      Space,
-      FormGrid,
-      FormLayout,
-      FormTab,
-      FormCollapse,
-      ArrayTable,
-      ArrayCards,
-      FormItem,
-      DatePicker,
-      Checkbox,
-      Cascader,
-      Editable,
-      Input,
-      Text,
-      NumberPicker,
-      Switch,
-      Password,
-      PreviewText,
-      Radio,
-      Reset,
-      Select,
-      Submit,
-      TimePicker,
-      Transfer,
-      TreeSelect,
-      Upload,
-      Card,
-      Slider,
-      Rate,
-      
-    },
-  })
-  
+    ProForm,
+    ProFormDatePicker,
+    ProFormDependency,
+    ProFormItem,
+    ProFormRadio,
+    ProFormText,
+    ProFormTextArea,
+  } from "@ant-design/pro-components";
+  import {
+    ProForm,
+    ProFormInstance,
+  } from "@ant-design/pro-components";
+
+  import {
+    usePageContainer,
+  } from "@core/rc-components";
+  import {  handleTypeEnum } from "@core/shared";
+
   export default ()=>{
-    const form = useMemo(() => createForm(), [])
-  
-    return <Form form={form} ${printAttribute(root)}>
-      <SchemaField>
+    // 控制loading
+    const [loading, setLoading] = useState(false);
+    // form实例
+    const formRef = useRef<ProFormInstance>();
+
+    // form初始化数据
+    const formInitDataMemo = useMemo(()=>{
+      return {}
+    },[]);
+
+
+    // 提交逻辑
+    const handleSubmit = async ({
+      handleType,
+    }: {
+      handleType: handleTypeEnum;
+    }) => {
+
+    }
+
+
+    // 底下的提交按钮
+    const pageContainerConfig = usePageContainer({
+      isCancelBtn: true,
+      isCancelConfirm: true,
+      footerConfig: [
+        {
+          id: "editSave",
+          name: "暂存",
+          loading,
+          onClick: () => handleSubmit({
+                  handleType: handleTypeEnum.save,
+            }),
+        },
+        {
+              id: "editSubmit",
+              loading,
+              name: "提交",
+              type: "primary",
+              onClick: () => handleSubmit({
+                  handleType: handleTypeEnum.submit,
+              }),
+          },
+      ]
+    });
+
+    return (
+      <PageLayout {...pageContainerConfig}>
+          <ProForm
+            initialValues={formInitDataMemo}
+            submitter={false}
+            validateTrigger="onBlur"
+            formRef={formRef}
+            // labelCol={{
+            // xs: { span: 24 },
+            // sm: { span: 24 },
+            // }}
+            // wrapperCol={{
+            // xs: { span: 24 },
+            // sm: { span: 18 },
+            // }}
+            ${printAttribute(root)}
+        >
         ${printChildren(root)}
-      </SchemaField>
-    </Form>
+        </ProForm>
+    </PageLayout>
+    )
+
   }
-    
+
+
   `;
 };
 
@@ -157,7 +229,7 @@ export const MarkupSchemaWidget: React.FC<IMarkupSchemaWidgetProps> = (
     <MonacoInput
       {...props}
       options={{ readOnly: true }}
-      value={transformToMarkupSchemaCode(props.tree)}
+      value={transformToProFormSchemaCode(props.tree)}
       language="typescript"
     />
   );
