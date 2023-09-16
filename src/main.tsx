@@ -1,7 +1,6 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
-import { useDesigner } from "@designable/react";
+import ReactDOM from "react-dom";
+import App from "./App";
+
 export const mount = ({
   root = document.getElementById("root")!,
   position = "relative",
@@ -9,7 +8,7 @@ export const mount = ({
   root: HTMLElement;
   position?: "fixed" | "absolute" | "relative";
 }) => {
-  return ReactDOM.createRoot(root).render(<App position={position} />);
+  return ReactDOM.render(<App position={position} />, root);
 };
 
 export class Designer {

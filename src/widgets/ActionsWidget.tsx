@@ -1,15 +1,15 @@
-import React, { useEffect } from "react";
-import { Space, Button, Radio } from "antd";
-import { GithubOutlined } from "@ant-design/icons";
-import { useDesigner, TextWidget } from "@designable/react";
+import { useEffect } from "react";
+import { Space } from "antd";
+
+import { useDesigner } from "@designable/react";
 import { GlobalRegistry } from "@designable/core";
 import { observer } from "@formily/react";
 
 export const ActionsWidget = observer(() => {
   const designer = useDesigner();
-  // useEffect(() => {
-  //   loadInitialSchema(designer)
-  // }, [])
+  useEffect(() => {
+    console.log(designer, "designer");
+  }, []);
 
   useEffect(() => {
     GlobalRegistry.setDesignerLanguage("zh-cn");

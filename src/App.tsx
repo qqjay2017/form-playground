@@ -64,7 +64,9 @@ import {
 } from "./antd-shared";
 import { SettingsForm } from "@designable/react-settings-form";
 import { MarkupSchemaWidget } from "./widgets/MarkupSchemaWidget";
-function App() {
+
+const CompositePanelItem: any = CompositePanel.Item;
+function App({ position }) {
   const engine = useMemo(
     () =>
       createDesigner({
@@ -86,9 +88,13 @@ function App() {
 
   return (
     <Designer engine={engine}>
-      <StudioPanel logo={<LogoWidget />} actions={<ActionsWidget />}>
+      <StudioPanel
+        logo={<LogoWidget />}
+        actions={<ActionsWidget />}
+        position={position}
+      >
         <CompositePanel>
-          <CompositePanel.Item title="panels.Component" icon="Component">
+          <CompositePanelItem title="panels.Component" icon="Component">
             <ResourceWidget
               title="输入控件"
               sources={[
@@ -126,13 +132,13 @@ function App() {
               sources={[ArrayCards, ArrayTable, MyInput]}
             />
             <ResourceWidget title="展示组件" sources={[Text]} />
-          </CompositePanel.Item>
-          <CompositePanel.Item title="panels.OutlinedTree" icon="Outline">
+          </CompositePanelItem>
+          <CompositePanelItem title="panels.OutlinedTree" icon="Outline">
             <OutlineTreeWidget />
-          </CompositePanel.Item>
-          <CompositePanel.Item title="panels.History" icon="History">
+          </CompositePanelItem>
+          <CompositePanelItem title="panels.History" icon="History">
             <HistoryWidget />
-          </CompositePanel.Item>
+          </CompositePanelItem>
         </CompositePanel>
         <Workspace id="lj-form">
           <WorkspacePanel>
