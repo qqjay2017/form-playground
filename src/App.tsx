@@ -64,9 +64,18 @@ import {
 } from "./antd-shared";
 import { SettingsForm } from "@designable/react-settings-form";
 import { MarkupSchemaWidget } from "./widgets/MarkupSchemaWidget";
+import Emittery from "emittery";
 
 const CompositePanelItem: any = CompositePanel.Item;
-function App({ position }) {
+function App({
+  position,
+  style,
+  emitter,
+}: {
+  position?: "fixed" | "absolute" | "relative";
+  style?: any;
+  emitter?: Emittery;
+}) {
   const engine = useMemo(
     () =>
       createDesigner({
@@ -87,11 +96,12 @@ function App({ position }) {
   );
 
   return (
-    <Designer engine={engine}>
+    <Designer engine={engine} position={position}>
       <StudioPanel
         logo={<LogoWidget />}
-        actions={<ActionsWidget />}
+        actions={<ActionsWidget emitter={emitter} />}
         position={position}
+        style={style}
       >
         <CompositePanel>
           <CompositePanelItem title="panels.Component" icon="Component">

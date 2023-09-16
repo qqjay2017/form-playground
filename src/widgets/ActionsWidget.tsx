@@ -1,14 +1,20 @@
 import { useEffect } from "react";
 import { Space } from "antd";
+import { transformToTreeNode } from "@designable/formily-transformer";
 
 import { useDesigner } from "@designable/react";
 import { GlobalRegistry } from "@designable/core";
 import { observer } from "@formily/react";
+import Emittery from "emittery";
 
-export const ActionsWidget = observer(() => {
+export const ActionsWidget = observer(({ emitter }: { emitter: Emittery }) => {
   const designer = useDesigner();
   useEffect(() => {
-    console.log(designer, "designer");
+    emitter.on("setCurrentSchema", (s) => {
+      console.log(designer, "designer");
+      designer.setCurrentTree(transformToTreeNode(s));
+    });
+    emitter.emit("getDesignerInstance", designer);
   }, []);
 
   useEffect(() => {

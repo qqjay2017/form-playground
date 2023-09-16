@@ -2413,6 +2413,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"emittery@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "emittery@npm:1.0.1"
+  checksum: 4290253b2e7acc9e39324ab59fff07752f0b3db80248c33a2a6585928ad175d606e02a0e38b679000c8a2cc3648bf26cb0fc48186d0c6cb41aae0e3db0c64646
+  languageName: node
+  linkType: hard
+
 "emoji-regex@npm:^8.0.0":
   version: 8.0.0
   resolution: "emoji-regex@npm:8.0.0"
@@ -2928,6 +2935,7 @@ __metadata:
     cross-env: "npm:^7.0.3"
     css-loader: "npm:^6.8.1"
     dayjs: "npm:^1.11.9"
+    emittery: "npm:^1.0.1"
     eslint: "npm:^8.45.0"
     eslint-plugin-react-hooks: "npm:^4.6.0"
     eslint-plugin-react-refresh: "npm:^0.4.3"
